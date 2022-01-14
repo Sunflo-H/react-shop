@@ -52,7 +52,9 @@ function App() {
             {
               shoes.map((item,index)=>{
                 return(
-                  <Card shoes={shoes[index]} index={index}/>
+                  <Link to={"/detail/"+item.id}>
+                    <Card shoes={item} index={item.id}/>
+                  </Link>
                 )
               })
             }
@@ -63,6 +65,12 @@ function App() {
         <Route path={"/detail/:id"}>
 
           <Detail shoes={shoes}></Detail>
+
+        </Route>
+
+        <Route path={"/detail"}>
+
+          <h1>디테일 페이지는 디테일/숫자로 이동했습니다.</h1>
 
         </Route>
 
