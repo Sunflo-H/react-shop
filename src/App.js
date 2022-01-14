@@ -59,17 +59,19 @@ function App() {
           </div>
         </div>
       </Route>
-      <Route path={"/detail"}>
+      <Switch>
+        <Route path={"/detail/:id"}>
 
-        <Detail></Detail>
-        
-      </Route>
+          <Detail shoes={shoes}></Detail>
 
-      <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
+        </Route>
 
-        <Detail></Detail>
+        <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
 
-      </Route>
+          <h1>아무거나 적으면 이거 보여주셈</h1>
+
+        </Route>
+      </Switch>
       
     </div>
   );
