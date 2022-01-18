@@ -1,16 +1,25 @@
 import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
 import {useState} from 'react';
 import Data from './data.js';
-
 import {Link, Route, Switch} from 'react-router-dom';
-
-import Detail from './component/Detail.js';
+import Detail from './Detail.js';
+import axios from 'axios';
 
 import './App.css';
 
 function App() {
   
   let [shoes,shoes변경] = useState(Data);
+
+  function sortItem(){
+    let temp = [...shoes];
+    let t=temp[0];
+    temp[0]=temp[1];
+    temp[1]=t;
+    console.log(temp);
+    shoes변경(temp);
+  }
+  
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -19,8 +28,8 @@ function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home"><Link to="/">Home</Link></Nav.Link>
-              <Nav.Link href="#link"><Link to="/detail">Detail</Link></Nav.Link>
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -32,9 +41,6 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      
-
 
       <Route exact path={"/"}>
         <div className='jumbotron'>
@@ -52,15 +58,26 @@ function App() {
             {
               shoes.map((item,index)=>{
                 return(
-                  <Link to={"/detail/"+item.id}>
-                    <Card shoes={item} index={item.id}/>
-                  </Link>
+                    <Card shoes={item} index={index} key={index}/>
                 )
               })
             }
           </div>
+          <button className="btn btn-primary" onClick={()=>{
+            let ag = axios.get('https://codingapple1.github.io/shop/data2.json')
+            .then((result)=>{
+              let newData = [...shoes,...result.data];
+              shoes변경(newData);
+            })
+            .catch(()=>{
+              console.log("실패했어요~~!");
+            })
+            
+          }}>더보기</button>
+          <button onClick={sortItem}>정렬버튼(사실스위치..)</button>
         </div>
       </Route>
+      
       <Switch>
         <Route path={"/detail/:id"}>
 
@@ -79,6 +96,8 @@ function App() {
           <h1>아무거나 적으면 이거 보여주셈</h1>
 
         </Route>
+
+        {/* < */}
       </Switch>
       
     </div>
@@ -88,11 +107,16 @@ function App() {
 function Card(props){
   return (
     <div className="col-md-4">
-      <img src={'https://codingapple1.github.io/shop/shoes'+(props.index+1)+'.jpg'} width="100%" alt={props.shoes.title}/>
+      <Link to={"/detail/"+props.shoes.id} style={{textDecoration : 'none'}}>
+                  
+      <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width="100%" alt={props.shoes.title}/>
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content}</p>
+      </Link>
     </div>      
   )
 }
+
+
 
 export default App; 
