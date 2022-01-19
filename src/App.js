@@ -10,6 +10,8 @@ import './App.css';
 function App() {
   
   let [shoes,shoes변경] = useState(Data);
+  let [로딩중,로딩중변경] = useState(false);
+  let [재고,재고변경] = useState([10,11,12]);
 
   function sortItem(){
     let temp = [...shoes];
@@ -41,47 +43,49 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Route exact path={"/"}>
-        <div className='jumbotron'>
-          <h1>Hello, world!</h1>
-          <p>
-            This is a simple hero unit, a simple jumbotron-style component for calling
-            extra attention to featured content or information.
-          </p>
-          <p>
-            <Button variant="primary">Learn more</Button>
-          </p>
-        </div>
-        <div className="container">
-          <div className="row">
-            {
-              shoes.map((item,index)=>{
-                return(
-                    <Card shoes={item} index={index} key={index}/>
-                )
-              })
-            }
-          </div>
-          <button className="btn btn-primary" onClick={()=>{
-            let ag = axios.get('https://codingapple1.github.io/shop/data2.json')
-            .then((result)=>{
-              let newData = [...shoes,...result.data];
-              shoes변경(newData);
-            })
-            .catch(()=>{
-              console.log("실패했어요~~!");
-            })
-            
-          }}>더보기</button>
-          <button onClick={sortItem}>정렬버튼(사실스위치..)</button>
-        </div>
-      </Route>
-      
       <Switch>
+        <Route exact path={"/"}>
+          <div className='jumbotron'>
+            <h1>Hello, world!</h1>
+            <p>
+              This is a simple hero unit, a simple jumbotron-style component for calling
+              extra attention to featured content or information.
+            </p>
+            <p>
+              <Button variant="primary">Learn more</Button>
+            </p>
+          </div>
+          <div className="container">
+            <div className="row">
+              {
+                shoes.map((item,index)=>{
+                  return(
+                      <Card shoes={item} index={index} key={index}/>
+                  )
+                })
+              }
+            </div>
+            <button className="btn btn-primary" onClick={()=>{
+              로딩중 ? console.log("로딩중") : 
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                let newData = [...shoes,...result.data];
+                shoes변경(newData);
+                console.log("성공");
+              })
+              .catch(()=>{
+                console.log("실패했어요~~!");
+              })
+              
+            }}>더보기</button>
+            <button onClick={sortItem}>정렬버튼(사실스위치..)</button>
+          </div>
+        </Route>
+      
+      
         <Route path={"/detail/:id"}>
 
-          <Detail shoes={shoes}></Detail>
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}></Detail>
 
         </Route>
 
