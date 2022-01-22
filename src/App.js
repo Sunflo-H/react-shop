@@ -1,11 +1,15 @@
 import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
-import {useState} from 'react';
+import React,{useState, useContext} from 'react';
 import Data from './data.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail.js';
+import Cart from './Cart.js';
 import axios from 'axios';
 
 import './App.css';
+
+let 재고context = React.createContext(); //공유할 범위 생성
+
 
 function App() {
   
@@ -16,7 +20,6 @@ function App() {
     let t=temp[0];
     temp[0]=temp[1];
     temp[1]=t;
-    console.log(temp);
     shoes변경(temp);
   }
   
@@ -41,44 +44,47 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Route exact path={"/"}>
-        <div className='jumbotron'>
-          <h1>Hello, world!</h1>
-          <p>
-            This is a simple hero unit, a simple jumbotron-style component for calling
-            extra attention to featured content or information.
-          </p>
-          <p>
-            <Button variant="primary">Learn more</Button>
-          </p>
-        </div>
-        <div className="container">
-          <div className="row">
-            {
-              shoes.map((item,index)=>{
-                return(
-                    <Card shoes={item} index={index} key={index}/>
-                )
-              })
-            }
-          </div>
-          <button className="btn btn-primary" onClick={()=>{
-            let ag = axios.get('https://codingapple1.github.io/shop/data2.json')
-            .then((result)=>{
-              let newData = [...shoes,...result.data];
-              shoes변경(newData);
-            })
-            .catch(()=>{
-              console.log("실패했어요~~!");
-            })
-            
-          }}>더보기</button>
-          <button onClick={sortItem}>정렬버튼(사실스위치..)</button>
-        </div>
-      </Route>
-      
       <Switch>
+        <Route exact path={"/"}>
+          <div className='jumbotron'>
+            <h1>Hello, world!</h1>
+            <p>
+              This is a simple hero unit, a simple jumbotron-style component for calling
+              extra attention to featured content or information.
+            </p>
+            <p>
+              <Button variant="primary">Learn more</Button>
+            </p>
+          </div>
+          
+          <div className="container">
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {
+                  shoes.map((item,index)=>{
+                    return(
+                        <Card shoes={item} index={index} key={index}/>
+                    )
+                  })
+                }
+              </div>
+            </재고context.Provider>
+            <button className="btn btn-primary" onClick={()=>{
+              로딩중 ? console.log("로딩중") : 
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                let newData = [...shoes,...result.data];
+                shoes변경(newData);
+                console.log("데이터 가져오기 성공");
+              })
+              .catch(()=>{
+                console.log("실패했어요~~!");
+              })
+            }}></button>
+          </div>
+          
+        </Route>
+      
         <Route path={"/detail/:id"}>
 
           <Detail shoes={shoes}></Detail>
@@ -91,13 +97,17 @@ function App() {
 
         </Route>
 
+        <Route path={"/cart"}>
+          <Cart />
+        </Route>
+
         <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
 
           <h1>아무거나 적으면 이거 보여주셈</h1>
           <h1>풀한뒤 다시 푸시하려고 수정한 내용</h1>
         </Route>
 
-        {/* < */}
+        
       </Switch>
       
     </div>
@@ -105,6 +115,7 @@ function App() {
 }
 
 function Card(props){
+  let 재고 = useContext(재고context)
   return (
     <div className="col-md-4">
       <Link to={"/detail/"+props.shoes.id} style={{textDecoration : 'none'}}>
@@ -112,6 +123,8 @@ function Card(props){
       <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width="100%" alt={props.shoes.title}/>
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content}</p>
+      
+      {재고}
       </Link>
     </div>      
   )

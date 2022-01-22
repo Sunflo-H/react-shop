@@ -1,9 +1,12 @@
 import React,{useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
+import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
 
 import styled from 'styled-components';
 
 import "./Detail.scss";
+
+import {CSSTransition} from "react-transition-group"
 
 
 let 박스 = styled.div`
@@ -21,21 +24,18 @@ function Detail(props){
   let [state,state변경] =useState(0);
   let [상태,상태변경] = useState(true);
   let [입력,입력변경] = useState("");
+  let [누른탭,누른탭변경] = useState(0);
+  let [스위치,스위치변경] =useState(false);
 
   function 입력변경함수(){
     {state변경(state++)};
   }
+
   useEffect(()=>{
     let timeout = setTimeout(()=>{상태변경(false)},2000);
     console.log("재렌더링");
-
     return ()=>{clearTimeout(timeout)}; // 컴포넌트가 종료될때 실행
   },[상태]);
-
-  useEffect(()=>{
-    console.log("업데이트 완료");
-    return e=>{console.log("컴포넌트 종료");}
-  })
 
   let history = useHistory(); //방문기록을 담아놓은 obj
   let {id} = useParams();
@@ -71,14 +71,56 @@ function Detail(props){
              }}>뒤로가기</button> 
           </div>
         </div>
-        <박스 >
+
+        <Nav variant="tabs" defaultActiveKey="link-0">
+          <Nav.Item>
+            <Nav.Link eventKey="link-0" onClick={()=>{스위치변경(false); 누른탭변경(0)}}>Active</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-1" onClick={()=>{스위치변경(false);누른탭변경(1)}}>Option 1</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-2" onClick={()=>{스위치변경(false);누른탭변경(2)}}>Option 2</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="disabled" disabled>
+              Disabled
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+
+
+        <CSSTransition in={스위치} classNames="wow" timeout={500}>
+          <TabContent 누른탭={누른탭} 스위치변경={스위치변경}/>
+        </CSSTransition>
+        {/* <박스 >
              <제목 글자색="blue">안녕 난 하얀색배경에 파란제목이야</제목>
              <제목 className='red'>안녕 난 SASS를 이용한 제목이야</제목>
-        </박스>
+        </박스> */}
       </div> 
   )
 }
+function TabContent(props){
 
+  useEffect(()=>{
+    props.스위치변경(true);
+  })
+
+  if(props.누른탭 === 0){
+    return <div>0번째 내용</div>
+  } else if(props.누른탭 === 1){
+    return <div>1번째 내용</div>
+  } else if(props.누른탭 === 2){
+    return <div>2번째 내용</div>
+  }
+  
+}
+
+function Info(props){
+  return(
+    <p>재고 : {props.재고}</p>
+  )
+}
 function 재고알림(){
   return(
     <div className='my-alert2'>
