@@ -6,6 +6,15 @@ $메인칼라 : #ff0000;
     color : $메인칼라;
 }
 
+.wow-enter {
+    opacity:0;
+}
+
+.wow-enter-active {
+    opacity:1;
+    transition: all 1500ms;
+}
+
 .my-alert {
     background-color: #eeeeee;
     padding: 20px;
