@@ -1,10 +1,12 @@
 import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
 import React,{useState, useContext} from 'react';
+import axios from 'axios';
+
 import Data from './data.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import Cart from './Cart.js';
-import axios from 'axios';
+import Test from './Test.js';
 
 import './App.css';
 
@@ -102,6 +104,10 @@ function App() {
 
         <Route path={"/cart"}>
           <Cart />
+        </Route>
+
+        <Route path={"/test"}>
+          <Test />
         </Route>
 
         <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
