@@ -15,21 +15,21 @@ function Cart(props){
                         <th>변경</th>
                     </tr>
                 </thead>
+                <tbody> 
                 {
                     props.상품.map((item)=>{
                         return(
-                            <tbody> 
                                 <tr>
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
                                     <td>{item.quan}</td>
                                     <td>@mdo</td>
                                 </tr>
-                            </tbody>
                         )
                         
                     })
                 }
+                </tbody>
                 
                 </Table>
         </div>

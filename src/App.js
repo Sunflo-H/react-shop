@@ -6,7 +6,7 @@ import Detail from './Detail.js';
 import Cart from './Cart.js';
 import axios from 'axios';
 
-import './App.css';
+// import './App.css';
 
 let 재고context = React.createContext(); //공유할 범위 생성
 
