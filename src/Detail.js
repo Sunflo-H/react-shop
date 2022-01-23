@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
-import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 import styled from 'styled-components';
 

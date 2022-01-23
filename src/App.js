@@ -6,7 +6,7 @@ import Detail from './Detail.js';
 import Cart from './Cart.js';
 import axios from 'axios';
 
-// import './App.css';
+import './App.css';
 
 let 재고context = React.createContext(); //공유할 범위 생성
 
@@ -14,6 +14,8 @@ let 재고context = React.createContext(); //공유할 범위 생성
 function App() {
   
   let [shoes,shoes변경] = useState(Data);
+  let [로딩중,로딩중변경] = useState(false);
+  let [재고,재고변경] = useState([10,11,12]);
 
   function sortItem(){
     let temp = [...shoes];
@@ -56,7 +58,6 @@ function App() {
               <Button variant="primary">Learn more</Button>
             </p>
           </div>
-          
           <div className="container">
             <재고context.Provider value={재고}>
               <div className="row">
@@ -68,7 +69,7 @@ function App() {
                   })
                 }
               </div>
-            </재고context.Provider>
+              </재고context.Provider>
             <button className="btn btn-primary" onClick={()=>{
               로딩중 ? console.log("로딩중") : 
               axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -80,14 +81,16 @@ function App() {
               .catch(()=>{
                 console.log("실패했어요~~!");
               })
-            }}></button>
+              
+            }}>더보기</button>
+            <button onClick={sortItem}>정렬버튼(사실스위치..)</button>
           </div>
           
         </Route>
       
         <Route path={"/detail/:id"}>
 
-          <Detail shoes={shoes}></Detail>
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}></Detail>
 
         </Route>
 
@@ -104,7 +107,7 @@ function App() {
         <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
 
           <h1>아무거나 적으면 이거 보여주셈</h1>
-          <h1>풀한뒤 다시 푸시하려고 수정한 내용</h1>
+
         </Route>
 
         

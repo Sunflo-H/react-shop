@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.jumbotron {
+  background-color: #eee;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  /* background: url(./background-150x150.jpg); */
+  /* background-size: cover; */
+}
+
+Link {
+  text-decoration: none;
+}
