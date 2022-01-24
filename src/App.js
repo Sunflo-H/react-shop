@@ -6,7 +6,8 @@ import Data from './data.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import Cart from './Cart.js';
-import Test from './Test.js';
+import Test from './Component/practics/prac.js';
+import Header from './Component/Header/index.js'
 
 import './App.css';
 
@@ -38,7 +39,7 @@ function App() {
               <Nav.Link as={Link} to="/">Home</Nav.Link>
               <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/test">Test</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -51,7 +52,7 @@ function App() {
       <Switch>
         <Route exact path={"/"}>
           <div className='jumbotron'>
-            <h1>Hello, world!</h1>
+            <h1 className='test'>Hello, world!</h1>
             <p>
               This is a simple hero unit, a simple jumbotron-style component for calling
               extra attention to featured content or information.
@@ -71,7 +72,7 @@ function App() {
                   })
                 }
               </div>
-              </재고context.Provider>
+            </재고context.Provider>
             <button className="btn btn-primary" onClick={()=>{
               로딩중 ? console.log("로딩중") : 
               axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -110,6 +111,12 @@ function App() {
           <Test />
         </Route>
 
+        <Route path={"/header"}>
+          <Header />
+        </Route>
+
+        
+
         <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
 
           <h1>아무거나 적으면 이거 보여주셈</h1>
@@ -126,7 +133,7 @@ function App() {
 function Card(props){
   let 재고 = useContext(재고context)
   return (
-    <div className="col-md-4">
+    <div className="col-md-4" >
       <Link to={"/detail/"+props.shoes.id} style={{textDecoration : 'none'}}>
                   
       <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width="100%" alt={props.shoes.title}/>

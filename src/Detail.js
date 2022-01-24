@@ -4,8 +4,8 @@ import { Nav } from 'react-bootstrap';
 
 import styled from 'styled-components';
 
-import "./Detail.scss";
-import "./_reset.scss";
+import "./Detail.css";
+// import "./_reset.scss";
 
 import {CSSTransition} from "react-transition-group"
 

@@ -1,9 +1,12 @@
-// @import './_reset.scss';
+/* @import './_reset.scss'; */
 
-$메인칼라 : #ff0000;
+/* $메인칼라 : #ff0000;  */
 
+:root{
+    메인칼라 : #ff0000;
+}
 .red {
-    color : $메인칼라;
+    color : 메인칼라;
 }
 
 .wow-enter {
