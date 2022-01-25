@@ -6,7 +6,7 @@ import Data from './data.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import Cart from './Cart.js';
-import Test from './Component/practics/prac.js';
+import Prac from './Component/practics/prac.js';
 import Header from './Component/Header/index.js'
 
 import './App.css';
@@ -107,15 +107,13 @@ function App() {
           <Cart />
         </Route>
 
-        <Route path={"/test"}>
-          <Test />
+        <Route path={"/prac"}>
+          <Prac />
         </Route>
 
         <Route path={"/header"}>
           <Header />
         </Route>
-
-        
 
         <Route path={"/:id"}>  {/*:id는 /이후 아무 경로라는 뜻 */}
 
