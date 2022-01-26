@@ -1,9 +1,15 @@
 import React from 'react';
 import {Table} from 'react-bootstrap'
 
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
+
 
 function Cart(props){
+   
+    let 상품 = useSelector((state)=> state.reducer ) // state : redux 안에 있던 모든 state
+    let dispatch = useDispatch();
+
     return(
         <div>
             <Table striped bordered hove >
@@ -17,13 +23,17 @@ function Cart(props){
                 </thead>
                 <tbody> 
                 {
-                    props.상품.map((item)=>{
+                    상품.map((item,i)=>{
+
                         return(
-                                <tr>
+                                <tr key={i}>
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
                                     <td>{item.quan}</td>
-                                    <td>@mdo</td>
+                                    <td>
+                                        <button onClick={()=>{ dispatch({type : '수량증가'}) }}>+</button>
+                                        <button onClick={()=>{ dispatch({type : '수량감소'}) }}>-</button>
+                                    </td>
                                 </tr>
                         )
                         
@@ -32,16 +42,28 @@ function Cart(props){
                 </tbody>
                 
                 </Table>
+                {
+                    props.alert열렸니 
+                    ?  (<div className='my-alert2'>
+                        <p>지금 구매하시면 신규할인 20%</p>
+                        <button onClick={()=>{props.dispatch( {type : '닫기'} )}}>닫기</button>
+                        </div>)
+                    : null
+                }
+                
         </div>
     )
 }
+// function state를props화한다(state){
+//     console.log(state);
+//     return {
+//         상품 : state.reducer,
+//         alert열렸니 : state.reducer2
+//     }
+// }
 
-function state를props화한다(state){
-    return {
-        상품 : state
-    }
-}
 
-export default connect(state를props화한다)(Cart)
 
-// export default Cart;
+// export default connect(state를props화한다)(Cart)
+
+export default Cart;

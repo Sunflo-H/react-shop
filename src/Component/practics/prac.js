@@ -2,6 +2,9 @@ import React , {useContext, useEffect, useState} from 'react';
 import {Row,Col,Container,Button,Nav} from 'react-bootstrap';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 
+// Redux
+import {connect} from 'react-redux';
+
 import style from './prac.module.css';
 import Data from '../../data';
 import axios from 'axios';
@@ -9,8 +12,13 @@ import { useParams } from 'react-router-dom';
 
 let shoesContext = React.createContext();
 
+function state를props화하는함수(state){
+    return {
+        신발 : state
+    }
+}
 
-function Prac(){
+function Prac(props){
 
     let [shoes,setShoes] = useState(Data);
     let [pracShoes,setPracShoes] = useState(0);
@@ -22,7 +30,6 @@ function Prac(){
     useEffect(()=>{
         axios.get("https://codingapple1.github.io/shop/data2.json")
         .then((result)=> {
-            console.log("맨첨에 실행 되겠지");
             setPracShoes(result.data);
         })
         .catch(()=>{
@@ -50,7 +57,7 @@ function Prac(){
                         }
                     </Row>) : null
                     } */}
-                    
+                    <CardRedux 신발={props.신발} ></CardRedux>
                     <button onClick={()=>{setBtnState(!btnState)}}>더 보기</button>
                     
                 </Container>
@@ -68,10 +75,10 @@ function Prac(){
         </div>
     )
 }
+
 function Card(){
     let shoesAll = useContext(shoesContext);
     let shoes=shoesAll[0];
-    console.log(shoesAll);
     return(
         <Row md={3} >
             {
@@ -87,6 +94,37 @@ function Card(){
                 })
             }
         </Row>
+    )
+}
+
+function CardRedux(props){
+    return(
+        <div>
+            <Row md={3}>
+                <Col>
+                    <img src={`https://codingapple1.github.io/shop/shoes${(props.신발[0].id)+1}.jpg`} width="100%" />
+                    <h4>{props.신발[0].title}</h4>
+                    <p>{props.신발[0].content}</p>
+                </Col>
+                <Col>
+                    <img src={`https://codingapple1.github.io/shop/shoes${(props.신발[1].id)+1}.jpg`} width="100%" />
+                    <h4>{props.신발[1].title}</h4>
+                    <p>{props.신발[1].content}</p>
+                </Col>
+                <Col>
+                    <img src={`https://codingapple1.github.io/shop/shoes${(props.신발[2].id)+1}.jpg`} width="100%" />
+                    <h4>{props.신발[2].title}</h4>
+                    <p>{props.신발[2].content}</p>
+                </Col>
+            </Row>
+            <아무컴포넌트 신발={props.신발}></아무컴포넌트>
+        </div>
+    )
+}
+
+function 아무컴포넌트(props){
+    return (
+        <h1>{props.신발[0].title}</h1>
     )
 }
 
@@ -119,7 +157,4 @@ function Detail(props){
     )
 }
 
-// function Detail_redux(){
-
-// }
-export default Prac;
+export default connect(state를props화하는함수)(Prac);

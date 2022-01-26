@@ -2,17 +2,23 @@ import { Navbar,Container,Nav,NavDropdown,Button } from 'react-bootstrap';
 import React,{useState, useContext} from 'react';
 import axios from 'axios';
 
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+
 import Data from './data.js';
 import {Link, Route, Switch} from 'react-router-dom';
 import Detail from './Detail.js';
 import Cart from './Cart.js';
-import Prac from './Component/practics/prac.js';
+import Prac from './Component/practics/Prac.js';
 import Header from './Component/Header/index.js'
 
 import './App.css';
 
 let 재고context = React.createContext(); //공유할 범위 생성
 
+let store = createStore(()=>{
+  return Data;
+})
 
 function App() {
   
@@ -108,7 +114,9 @@ function App() {
         </Route>
 
         <Route path={"/prac"}>
-          <Prac />
+          <Provider pracStore={store}> {/* props를 사용하지 않고 prac.js에 store 전달 */}
+            <Prac />
+          </Provider>
         </Route>
 
         <Route path={"/header"}>

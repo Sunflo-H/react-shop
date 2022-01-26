@@ -32,6 +32,11 @@
 }
 
 .my-alert2 {
-    @extend .my-alert;
+    /* @extend .my-alert; */
+    padding: 20px;
+    border-radius:5px;
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
     background-color:#ffe591 ;
 }
