@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 let shoesContext = React.createContext();
 
 function state를props화하는함수(state){
+    console.log(state);
     return {
         신발 : state
     }

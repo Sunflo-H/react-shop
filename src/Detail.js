@@ -71,7 +71,11 @@ function Detail(props){
             <Info 재고={props.재고[findItem.id]}></Info>
             <button className="btn btn-danger" onClick={()=>{
               props.재고변경([9,11,12]);
-              props.dispatch({type : '항목추가', payload : {id:3,name:'새상품',quan:1}});
+              console.log(findItem);
+              props.dispatch({
+                type : '항목추가',
+                payload : {id : findItem.id, name : findItem.title, quan : 1}
+              });
               history.push('/cart');
 
             }}>주문하기</button> 
@@ -139,7 +143,7 @@ function 재고알림(){
 }
 
 function state를props화한다(state){
-  console.log(state);
+  console.log('state를 props화 하는 함수 state :' ,state);
   return {
       상품 : state.reducer,
       alert열렸니 : state.reducer2

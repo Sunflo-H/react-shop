@@ -6,11 +6,12 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
 import Data from './data.js';
-import {Link, Route, Switch} from 'react-router-dom';
+import {Link, Route, Switch, useHistory} from 'react-router-dom';
 import Detail from './Detail.js';
 import Cart from './Cart.js';
 import Prac from './Component/practics/Prac.js';
-import Header from './Component/Header/index.js'
+import Header from './Component/Header/index.js';
+import Test from './Component/Test/Test.js';
 
 import './App.css';
 
@@ -20,11 +21,15 @@ let store = createStore(()=>{
   return Data;
 })
 
+
+
 function App() {
   
   let [shoes,shoes변경] = useState(Data);
   let [로딩중,로딩중변경] = useState(false);
   let [재고,재고변경] = useState([10,11,12]);
+
+  
 
   function sortItem(){
     let temp = [...shoes];
@@ -114,9 +119,13 @@ function App() {
         </Route>
 
         <Route path={"/prac"}>
-          <Provider pracStore={store}> {/* props를 사용하지 않고 prac.js에 store 전달 */}
+          <Provider store={store}> 
             <Prac />
           </Provider>
+        </Route>
+
+        <Route path={"/test"}>
+            <Test />
         </Route>
 
         <Route path={"/header"}>
@@ -137,17 +146,14 @@ function App() {
 }
 
 function Card(props){
-  let 재고 = useContext(재고context)
+  let 재고 = useContext(재고context);
+  let history = useHistory();
   return (
-    <div className="col-md-4" >
-      <Link to={"/detail/"+props.shoes.id} style={{textDecoration : 'none'}}>
-                  
+    <div className="col-md-4" onClick={()=>{history.push('/detail/'+props.shoes.id)}} style={{cursor:'pointer'}}>
       <img src={'https://codingapple1.github.io/shop/shoes'+(props.shoes.id+1)+'.jpg'} width="100%" alt={props.shoes.title}/>
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content}</p>
-      
-      {재고}
-      </Link>
+      <p>재고 : {재고[props.shoes.id]}</p>
     </div>      
   )
 }

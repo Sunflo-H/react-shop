@@ -27,24 +27,29 @@ let 초기값 = [
 function reducer(state = 초기값, 액션){
   if(액션.type === "항목추가"){
     let copy = [...state];
-    copy.push(액션.payload);
+    let index = copy.findIndex(item=>item.name === 액션.payload.name);
+    if(index === -1){
+      copy.push(액션.payload);
+    } else {
+      copy[index].quan++;
+    }
     return copy;
 
   } else if(액션.type ==="수량증가"){
     let copy = [...state];
-    copy[0].quan++;
+    copy[액션.payload.id].quan++;
     return copy
 
   } else if(액션.type ==="수량감소"){
     let copy = [...state];
-    copy[0].quan--;
+    copy[액션.payload.id].quan--;
     return copy
   }else{
     return state;
   }
 }
 
-let store = createStore(combineReducers({reducer,reducer2})); // 콜백함수 reducer
+let store = createStore(combineReducers({reducer,reducer2})); 
 
 ReactDOM.render(
   <React.StrictMode>
