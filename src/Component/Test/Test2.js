@@ -1,21 +1,24 @@
 import {connect} from 'react-redux'
 import {useState, useEffect, useRef} from 'react';
 
+let useDidMountEffect = (func, deps)=>{
+    const didMount = useRef(false);
+
+    useEffect(()=>{
+        if(didMount.current) func();
+        else didMount.current = true;
+    },deps);
+};
 
 function Test2(props){
     let [count, setCount] = useState(0);
     let [age, setAge] = useState(20);
 
-    let useDidMountEffect = (func, deps)=>{
-        const didMount = useRef(false);
-    }
-    useEffect(()=>{
-        console.log(count);
-        console.log(age);
+    useDidMountEffect(()=>{
         if ( count < 3 ) {
             setAge(age+1);
         }
-    },[count]);
+    },[count])
     // console.log(props);
     return (
         <div>

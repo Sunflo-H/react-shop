@@ -28,6 +28,7 @@ function App() {
   let [shoes,shoes변경] = useState(Data);
   let [로딩중,로딩중변경] = useState(false);
   let [재고,재고변경] = useState([10,11,12]);
+  let [최근방문상품,최근방문상품변경] = useState([]);
 
   
 
@@ -104,7 +105,7 @@ function App() {
       
         <Route path={"/detail/:id"}>
 
-          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}></Detail>
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} 최근방문상품={최근방문상품} 최근방문상품변경={최근방문상품변경}></Detail>
 
         </Route>
 

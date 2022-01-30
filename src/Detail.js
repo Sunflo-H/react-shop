@@ -40,11 +40,36 @@ function Detail(props){
     return ()=>{clearTimeout(timeout)}; // 컴포넌트가 종료될때 실행
   },[상태]);
 
+  
+
   let history = useHistory(); //방문기록을 담아놓은 obj
   let {id} = useParams();
   let findItem = props.shoes.find(item=>{
     return id == item.id;
   })
+
+  useEffect(()=>{
+    var arr = localStorage.getItem('watched');
+
+    if(arr == null) {
+      arr= [];
+    }else{
+      arr = JSON.parse(arr);
+    }
+
+    arr.push(id);
+    arr = new Set( arr ); //중복제거
+    arr =[...arr];
+    localStorage.setItem('watched',JSON.stringify(arr));
+    
+    // let temp = [...props.최근방문상품];
+    // temp.push(findItem.id);
+    // props.최근방문상품변경(temp);
+    // console.log(temp);
+    // console.log(props.최근방문상품);
+    // setTimeout(()=>{localStorage.setItem('최근방문상품',JSON.stringify(props.최근방문상품));},2000);
+    
+  },[])
   
 
   return (

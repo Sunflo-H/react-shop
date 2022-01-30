@@ -2,6 +2,7 @@ import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 
 import Test2 from './Test2.js';
+import Test3 from './Test3.js';
 
 let store = createStore(()=>{
     return "hi";
@@ -25,6 +26,7 @@ function Test(){
             <Provider store={store}>
                 <Test2 />
             </Provider>
+            {/* <Test3 /> */}
         </div>
     )
 }
